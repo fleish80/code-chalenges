@@ -1,1 +1,1 @@
-export type StatusType = 'CORRECT' | 'INCORRECT';
+export type StatusType = 'CORRECT' | 'INCORRECT' | 'PARTIALLY_CORRECT';

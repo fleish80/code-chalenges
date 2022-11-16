@@ -1,5 +1,12 @@
-body {
-  display: flex;
+/*body {*/
+/*  display: grid;*/
+/*  place-content: center;*/
+/*  justify-content: ;*/
+/*}*/
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 270px);
   flex-direction: row;
   justify-content: center;
   gap: 20px;

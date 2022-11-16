@@ -1,35 +1,65 @@
+import {SubmissionModel} from './submission.model';
+import {QuestionModel} from './question.model';
+
 const QUESTIONS_URL = 'https://www.algoexpert.io/api/fe/questions';
 const SUBMISSIONS_URL = 'https://www.algoexpert.io/api/fe/submissions';
 
-(async () => {
-  const questionsJson = await fetch(QUESTIONS_URL, {mode: 'no-cors'});
-  const questions: QuestionModel[] = await questionsJson.json();
+const fetchQuestions = async (): Promise<QuestionModel[]> => {
+  const questionsResponse = await fetch(QUESTIONS_URL, {mode: 'no-cors'});
+  return await questionsResponse.json() as QuestionModel[];
+}
 
-  console.log({questions});
+const fetchSubmissions = async (): Promise<SubmissionModel[]> => {
+  const submissionsResponse = await fetch(SUBMISSIONS_URL, {mode: 'no-cors'});
+  return await submissionsResponse.json() as SubmissionModel[];
+}
 
-  const categoriesMap = new Map<string, boolean>();
+
+const createCategory = (questions: QuestionModel[]): Element => {
+  const categoriesMap = new Map<string, Element>();
+
+  const categoriesDiv = document.createElement('div');
+  categoriesDiv.classList.add('categories');
+
 
   questions.forEach((question) => {
     const categoryForId = question.category.replace(' ', '-').toLowerCase();
-    const hasCategory = categoriesMap.get(question.category);
-    if (!hasCategory) {
-      const categoryDiv = document.createElement('div');
-      categoryDiv.className = 'category';
-      categoryDiv.id = categoryForId;
-      categoryDiv.innerHTML = `<h2>${question.category}</h2>`;
+
+    let categoriesWrapperDiv = categoriesMap.get(question.category);
+
+    if (!categoriesWrapperDiv) {
+
+      categoriesWrapperDiv = document.createElement('div');
+      categoriesWrapperDiv.classList.add('category-wrapper');
+      categoriesWrapperDiv.id = categoryForId;
+      categoriesWrapperDiv.innerHTML = `<h2>${question.category}</h2>`;
+
       const questionsDiv = document.createElement('div');
-      questionsDiv.className = 'questions';
-      categoryDiv.append(questionsDiv);
-      document.body.append(categoryDiv);
-      categoriesMap.set(question.category, true);
+      questionsDiv.classList.add('questions');
+
+      categoriesWrapperDiv.append(questionsDiv);
+      categoriesDiv.append(categoriesWrapperDiv);
+      categoriesMap.set(question.category, categoriesWrapperDiv);
     }
-    const categoryDiv = document.querySelector(`#${categoryForId} .questions`);
 
     const questionDiv = document.createElement('div');
-    questionDiv.className = 'question';
+    questionDiv.classList.add('question');
+    questionDiv.id = question.id;
     questionDiv.textContent = question.name;
-    categoryDiv!.append(questionDiv);
 
+    const questionsDiv = categoriesWrapperDiv.querySelector('.questions')!;
+    questionsDiv.append(questionDiv);
   });
 
+  return categoriesDiv;
+
+}
+
+const updateSubmissionQuestion = (submissions: SubmissionModel[]): void => {
+
+}
+
+(async () => {
+  const questions = await fetchQuestions();
+  document.body.append(createCategory(questions));
 })()
