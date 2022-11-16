@@ -192,7 +192,7 @@ h3 {
   grid-area: five;
 }
 
-@media screen and (min-width: 50em) {
+@media (width >= 50em) {
 
   .testimonial-grid {
     grid-template-areas:
