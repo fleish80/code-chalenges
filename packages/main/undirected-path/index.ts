@@ -7,21 +7,45 @@ const edges: [string, string][] = [
 ];
 
 const buildGraph = (edges: [string, string][]): { [key: string]: string[] } => {
-  // const graph: { [key: string]: string[] } = {};
-
   const graph: { [key: string]: string[] } =
-    edges.reduce((acc: { [key: string]: string[] }, curr: [string, string]) => {
-      if (!acc[curr[0]]) {
-        acc[curr[0]] = [];
+    edges.reduce((acc: { [key: string]: string[] }, [nodeA, nodeB]: [string, string]) => {
+      if (!(nodeA in acc)) {
+        acc[nodeA] = [];
       }
-      if (!acc[curr[1]]) {
-        acc[curr[1]] = [];
+      if (!(nodeB in acc)) {
+        acc[nodeB] = [];
       }
-      acc[curr[0]].push(curr[1]);
-      acc[curr[1]].push(curr[0]);
+      acc[nodeA].push(nodeB);
+      acc[nodeB].push(nodeA);
       return acc;
     }, {});
   return graph;
 }
 
-console.log(buildGraph(edges));
+const runIterative = (graph: { [key: string]: string[] }, source: string, target: string) => {
+  const visited = new Set<string>();
+  const stack: string[] = [source];
+  while (stack.length > 0) {
+    const value = stack.pop() as string;
+    visited.add(value);
+    if (value === target) {
+      return true;
+    }
+    graph[value].forEach((val: string) => {
+      if (!visited.has(val)) {
+        stack.push(val);
+      }
+    })
+  }
+  return false;
+
+
+}
+
+const graph = buildGraph(edges);
+
+
+console.log(runIterative(graph,'i', 'm'));
+console.log(runIterative(graph,'i', 'n'));
+console.log(runIterative(graph,'o', 'n'));
+console.log(runIterative(graph,'n', 'k'));
