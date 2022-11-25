@@ -14,9 +14,7 @@ const findNumberOfIsolatedStrings = (str: string): number => {
   return counter;
 }
 
-(() => {
-  document.body.append(`<p>abcbabcxvgc-${findNumberOfIsolatedStrings('abcbabcxvgc')}</p>`);
-  document.body.append(`<p>aaaaabcbabcxvgc-${findNumberOfIsolatedStrings('aaaaabcbabcxvgc')}</p>`);
-  document.body.append(`<p>-${findNumberOfIsolatedStrings('')}</p>`);
-})();
+
+
+console.log('Program has completed');
 
