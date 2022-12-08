@@ -1,4 +1,4 @@
-const graph: { [k: string]: string[] } = {
+const graphDFT: { [k: string]: string[] } = {
   a: ['b', 'c'],
   b: ['d'],
   c: ['e'],
@@ -7,7 +7,7 @@ const graph: { [k: string]: string[] } = {
   e: []
 }
 
-const runIterative = (graph: { [k: string]: string[] }, source: string) => {
+const runIterativeDFT = (graph: { [k: string]: string[] }, source: string) => {
   const stack: string[] = [source];
   while (stack.length > 0) {
     const val = stack.pop() as string;
@@ -16,12 +16,12 @@ const runIterative = (graph: { [k: string]: string[] }, source: string) => {
   }
 }
 
-const runRecursive = (graph: { [k: string]: string[] }, source: string) => {
+const runRecursiveDFT = (graph: { [k: string]: string[] }, source: string) => {
   console.log(source);
-  graph[source].forEach(s => runRecursive(graph, s));
+  graph[source].forEach(s => runRecursiveDFT(graph, s));
 }
 
-runIterative(graph, 'a');
+runIterativeDFT(graphDFT, 'a');
 console.log('separator');
-runRecursive(graph, 'a');
+runRecursiveDFT(graphDFT, 'a');
 

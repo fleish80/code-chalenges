@@ -37,7 +37,7 @@ const runMySolution = (graph: GraphType): number => {
   return counter;
 }
 
-const explore = (graph: GraphType, current: number, visited: Set<number>) => {
+const exploreCCC = (graph: GraphType, current: number, visited: Set<number>) => {
   if (visited.has(current)) {
     return false;
   }
@@ -51,12 +51,12 @@ const explore = (graph: GraphType, current: number, visited: Set<number>) => {
   return true;
 }
 
-const runCorrectSolution = (graph: GraphType): number => {
+const runCorrectSolutionCCC = (graph: GraphType): number => {
   const visited = new Set<number>();
   let counter = 0;
 
   for (let node in graph) {
-    if (explore(graph, parseInt(node), visited)) {
+    if (exploreCCC(graph, parseInt(node), visited)) {
       counter++;
     }
   }
@@ -68,5 +68,5 @@ const runCorrectSolution = (graph: GraphType): number => {
 
 console.log(runMySolution(graph));
 
-console.log(runCorrectSolution(graph));
+console.log(runCorrectSolutionCCC(graph));
 
